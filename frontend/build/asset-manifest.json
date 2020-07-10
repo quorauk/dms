@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/static/css/main.0c002052.chunk.css",
+    "main.js": "/static/js/main.e54e5ae7.chunk.js",
+    "main.js.map": "/static/js/main.e54e5ae7.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.40fdda69.js",
+    "runtime-main.js.map": "/static/js/runtime-main.40fdda69.js.map",
+    "static/js/2.f92a1b44.chunk.js": "/static/js/2.f92a1b44.chunk.js",
+    "static/js/2.f92a1b44.chunk.js.map": "/static/js/2.f92a1b44.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.570d13218c516b7d769ff8db262edc82.js": "/precache-manifest.570d13218c516b7d769ff8db262edc82.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.0c002052.chunk.css.map": "/static/css/main.0c002052.chunk.css.map",
+    "static/js/2.f92a1b44.chunk.js.LICENSE.txt": "/static/js/2.f92a1b44.chunk.js.LICENSE.txt",
+    "static/media/App.css": "/static/media/Assistant-SemiBold.d6759edb.ttf",
+    "static/media/logo.png": "/static/media/logo.7c325f28.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.40fdda69.js",
+    "static/js/2.f92a1b44.chunk.js",
+    "static/css/main.0c002052.chunk.css",
+    "static/js/main.e54e5ae7.chunk.js"
+  ]
+}

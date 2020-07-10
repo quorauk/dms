@@ -1,0 +1,65 @@
+@font-face {
+  font-family: "Assistant";
+  src: local("FiraSans"), url(./assets/Assistant-Regular.ttf) format("truetype");
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: Assistant;
+  src: local("FiraSans"),
+    url(./assets/Assistant-SemiBold.ttf) format("truetype");
+  font-weight: bold;
+}
+
+.App {
+  font-family: "Assistant";
+}
+
+.App-logo {
+  position: relative;
+  top: -40px;
+  left: 20px;
+  margin-right: 40px;
+  height: 90px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+#bottom-bar {
+  position: absolute;
+  display: flex;
+  bottom: 0;
+  height: 70px;
+  width: 100vw;
+  background-color: black;
+  z-index: 2;
+}
+
+.banner-group {
+  display: inline-flex;
+  z-index: 9;
+  flex-grow: 1;
+}
+
+.banner-content-exit {
+  z-index: 1;
+}
+
+.cover-over-container {
+  overflow: visible;
+  display: flex;
+}
+
+b {
+  white-space: pre;
+}
+
+.slider-container {
+  overflow: hidden;
+  display: flex;
+}
+
+.banner-content {
+  transform: translateX(0%);
+  z-index: 10;
+}
