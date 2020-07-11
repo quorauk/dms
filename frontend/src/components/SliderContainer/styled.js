@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { slideDirection, slideIn } from "../../styling/Animations";
 
 export const Container = styled.div`

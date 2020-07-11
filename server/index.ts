@@ -1,14 +1,16 @@
-import WebSocket from "ws";
-import axios from "axios";
 import dotenv from "dotenv";
 import { v4 as uuidv4 } from "uuid";
+import WebSocket from "ws";
+import { TSL } from "./tsl";
+import { Observer } from "./tsl/observer";
+
 
 dotenv.config();
 
 const websockets: { [key: string]: WebSocket } = {};
 
 const wss = new WebSocket.Server({
-  port: parseInt(process.env.PORT),
+  port: parseInt(process.env.PORT || "3030"),
   perMessageDeflate: {
     zlibDeflateOptions: {
       // See zlib defaults.
@@ -30,28 +32,43 @@ const wss = new WebSocket.Server({
   },
 });
 
-var latestData = "{}";
+var latestData = {};
+var globalClassification = []
 
 wss.on("connection", async function connection(ws) {
   const hookUUID = uuidv4();
 
-  console.log(`to ${hookUUID}: ${latestData}`);
-  ws.send(latestData);
+  ws.send(JSON.stringify({"scoreboardState": latestData}));
+  ws.send(JSON.stringify({"classification": globalClassification}))
 
   ws.on("message", (msg: string) => {
     console.log(`from ${hookUUID}: ${msg}`);
-    latestData = msg;
-    Object.entries(websockets).map(([uuid, ws]) => {
-      if (uuid !== hookUUID) {
-        console.log(`to ${uuid}: ${msg}`);
-        ws.send(latestData);
+    latestData = JSON.parse(msg);
+    wss.clients.forEach((client) => {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(JSON.stringify({"scoreboardState": latestData}));
       }
-    });
+    })
   });
-
-  ws.on("close", () => {
-    delete websockets[hookUUID];
-  });
-
-  websockets[hookUUID] = ws;
 });
+
+const blah = () => {
+  const doAsyncStuff = async () => {
+    const tsl = new TSL("202982")
+    await tsl.connect()
+    tsl.getSessionData()
+    tsl.registerConnectionID()
+    const observer = new Observer(tsl)
+    observer.onClassificationUpdated((classification) => {
+      globalClassification = classification
+
+      console.log("sending classification")
+      wss.clients.forEach((client) => {
+        client.send(JSON.stringify({"classification": classification}))
+      })
+    })
+  }
+  doAsyncStuff()
+}
+
+blah()

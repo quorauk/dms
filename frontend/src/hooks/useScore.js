@@ -1,32 +1,39 @@
-import { useState, useEffect, useCallback } from "react";
+import { useEffect, useState } from "react";
 import useWebsocket from "./useWebsocket";
 
 const useScore = (props) => {
   const ws = useWebsocket();
 
-  const [scoreString, setScoreString] = useState();
   const [score, setScore] = useState({
-    classDisplay: "D Class",
-    session: "Practice",
+    // classDisplay: "D Class",
+    // session: "Practice",
     display: true,
   });
+
+  const [classification, setClassification] = useState([])
 
   useEffect(() => {
     if (ws) {
       ws.addEventListener("message", (msg) => {
-        setScore(JSON.parse(msg.data));
+        const data = JSON.parse(msg.data)
+        if (data.scoreboardState) {
+          setScore(data.scoreboardState);
+        }
+        if (data.classification) {
+          setClassification(
+            data.classification
+          );
+        }
       });
     }
-  }, [ws, setScore]);
+  }, [ws, setScore, setClassification]);
 
-  useEffect(() => {
-    if (ws && props && props.readOnly === false) {
-      const newScoreString = JSON.stringify(score);
-      ws.send(newScoreString);
-    }
-  }, [ws, score, scoreString]);
+  const sendScore = (score) => {
+    const newScoreString = JSON.stringify(score);
+    ws.send(newScoreString);
+  }
 
-  return [score, setScore, ws];
+  return [score, sendScore, classification, setClassification];
 };
 
 export default useScore;

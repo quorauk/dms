@@ -45,6 +45,16 @@ const InputLabel = styled.label`
   margin: 0 10px;
 `;
 
+const DropdownInput = styled.select`
+  background-color: #1f1e1f;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 3px;
+  width: 100%;
+  height: max-content;
+`
+
 const FormRow = styled.form``;
 
 const Input = ({ label, value, onChange }) => {
@@ -62,92 +72,48 @@ const Input = ({ label, value, onChange }) => {
   );
 };
 
-export const PeopleForm = ({ people, setPeople, setScore }) => {
-  const AddPerson = () => {
-    setPeople([...people, {}]);
-  };
-
-  const EditPerson = (id, person) => {
-    console.log(person);
-    people[id] = person;
-    console.log(people);
-    setPeople(people);
-  };
-
-  const Person = ({ index, person }) => {
-    const [pState, setPstate] = useState(person);
-
-    useEffect(() => {
-      EditPerson(index, pState);
-    }, [pState, index]);
-
-    return (
-      <>
-        <Input
-          label="name"
-          value={pState.name}
-          onChange={(name) => {
-            setPstate((prevState) => ({ ...prevState, name }));
-          }}
-        />
-        <Input
-          label="time"
-          value={pState.time}
-          onChange={(time) => {
-            setPstate((prevState) => ({ ...prevState, time }));
-          }}
-        />
-        <Button
-          type="button"
-          onClick={() => {
-            setPeople(Object.entries(people).filter(([i]) => index !== i));
-          }}
-        >
-          Delete
-        </Button>
-      </>
-    );
-  };
-
+const Dropdown = ({ label, options, value, onChange }) => {
   return (
-    <FormRow
-      onSubmit={(e) => {
-        e.preventDefault();
-        setScore((prevState) => ({
-          ...prevState,
-          people: people,
-        }));
-      }}
-    >
-      {Object.entries(people).map(([index, person]) => (
-        <div>
-          <Person index={index} person={person} />
-        </div>
-      ))}
-      <Button type="button" onClick={AddPerson}>
-        Add person
-      </Button>
-      <Button type="submit">Update People</Button>
-    </FormRow>
+    <InputField>
+      <InputLabel>{label}</InputLabel>
+      <DropdownInput value={value} onChange={(e) => {
+        onChange(e.target.value)
+      }}>
+        {
+          options.map(c=> 
+            <option value={c} key={c}>{c}</option>
+          )
+        }
+      </DropdownInput>
+    </InputField>
   );
 };
 
 export const Admin = () => {
-  const [score, setScore] = useScore({ readOnly: false });
+  const [score, sendScore, classification] = useScore({ readOnly: false });
   const [session, setSession] = useState("");
-  const [people, setPeople] = useState([]);
-  const [classDisplay, setClassDisplay] = useState("");
+  const [classDisplay, setClassDisplay] = useState(null);
+  const [classes, setClasses] = useState([null])
+
+  useEffect(() => {
+    const updatedClasses = classification.reduce((acc, row) => {
+      if (acc.includes(row.SubClass)) {
+        return acc
+      } else {
+        acc.push(row.SubClass)
+        return acc
+      }
+    }, classes)
+    setClasses(updatedClasses)
+  }, [classification, setClasses, classes])
 
   useEffect(() => {
     if (score) {
       if (score.session) {
         setSession(score.session);
       }
-      if (score.classDisplay) {
+      if (score.classDisplay !== undefined) {
         setClassDisplay(score.classDisplay);
-      }
-      if (score.people) {
-        setPeople(score.people);
       }
     }
   }, [score]);
@@ -157,38 +123,67 @@ export const Admin = () => {
       <FormRow
         onSubmit={(e) => {
           e.preventDefault();
-          setScore({
+          sendScore({
             ...score,
             session,
+            classDisplay
           });
         }}
       >
         <Input label="session" value={session} onChange={setSession} />
-        <Button type="submit">Update Session</Button>
+        <Dropdown label="class" value={classDisplay} onChange={setClassDisplay} options={classes}/>
+        <Button>Update</Button>
+      {/* <table>
+        <tr>
+          <th>
+            PIC
+          </th>
+          <th>
+            Name
+          </th>
+          <th>
+            Number
+          </th>
+          <th>
+            current session best
+          </th>
+          <th>
+            primary class
+          </th>
+          <th>
+            sub class
+          </th>
+          <th>
+            gap
+          </th>
+          <th>
+            diff
+          </th>
+          <th>
+            PB
+          </th>
+        </tr>
+        {classification.filter((c) => {
+          if (classDisplay === null | classDisplay === "") {
+            return true
+          } else {
+            return  c.SubClass === classDisplay
+          }
+        }).map((c) =>
+          (<tr>
+            <td>{c.PIC}</td>
+            <td>{c.Name}</td>
+            <td>{c.StartNumber}</td>
+            <td>{c.CurrentSessionBest}</td>
+            <td>{c.PrimaryClass}</td>
+            <td>{c.SubClass}</td>
+            <td>{c.Gap}</td>
+            <td>{c.Diff}</td>
+            <td>{c.PersonalBestTime}</td>
+          </tr>)
+        )}
+      </table> */}
       </FormRow>
-      <FormRow
-        onSubmit={(e) => {
-          e.preventDefault();
-          setScore({
-            ...score,
-            classDisplay,
-          });
-        }}
-      >
-        <Input label="class" value={classDisplay} onChange={setClassDisplay} />
-        <Button>Update Class</Button>
-      </FormRow>
-      <PeopleForm people={people} setPeople={setPeople} setScore={setScore} />
-      <Button
-        onClick={() => {
-          setScore((prevState) => ({
-            ...score,
-            display: !prevState.display,
-          }));
-        }}
-      >
-        Hide
-      </Button>
     </Background>
   );
 };
