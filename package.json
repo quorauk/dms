@@ -1,0 +1,46 @@
+{
+  "name": "dms",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "3.4.1",
+    "react-transition-group": "^4.4.1",
+    "styled-components": "^5.1.1",
+    "@types/ws": "^7.2.4",
+    "axios": "^0.19.2",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "typescript": "^3.8.3",
+    "uuid": "^8.0.0",
+    "ws": "^7.2.5"
+  },
+  "scripts": {
+    "start-front": "react-scripts start",
+    "build-front": "react-scripts build",
+    "build-server": "tsc --project server/tsconfig.json",
+    "build": "node buildScript.js",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
