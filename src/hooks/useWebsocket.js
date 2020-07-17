@@ -4,8 +4,7 @@ const useWebsocket = () => {
 
   useEffect(() => {
     if (ws === null) {
-
-      const socket = new WebSocket("ws://localhost:3030/echo"); 
+      const socket = new WebSocket(window.location.origin.replace(/^http/, 'ws') + "/echo")
       socket.addEventListener("open", () => {
         setWS(socket);
       });

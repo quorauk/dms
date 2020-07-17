@@ -13,6 +13,9 @@ const INDEX = '/app/index.html';
 
 const server = express()
   .use(express.static(__dirname + "/app"))
+  .get('/admin', (req,res) =>{
+    res.sendFile(INDEX, {root: __dirname});
+  })
   .listen(PORT, () => console.log(`Listening on ${PORT}`));
 
 const wss = new WebSocket.Server({
