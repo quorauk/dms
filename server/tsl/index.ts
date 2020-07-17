@@ -30,9 +30,9 @@ export class TSL {
                 } 
             })
 
-            websocket.addEventListener("message", (msg) => {
-                fs.appendFile(".txt", msg.data + "\n", () => {})
-            })
+            // websocket.addEventListener("message", (msg) => {
+            //     fs.appendFile(".txt", msg.data + "\n", () => {})
+            // })
 
             websocket.addEventListener("error", (err) => {
                 console.log("error", err)

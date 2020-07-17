@@ -3,14 +3,21 @@ import { v4 as uuidv4 } from "uuid";
 import WebSocket from "ws";
 import { TSL } from "./tsl";
 import { Observer } from "./tsl/observer";
-
+import express from "express"
 
 dotenv.config();
 
-const websockets: { [key: string]: WebSocket } = {};
+// const websockets: { [key: string]: WebSocket } = {};
+const PORT = process.env.PORT || 3000;
+const INDEX = '/app/index.html';
+
+const server = express()
+  .use(express.static(__dirname + "/app"))
+  .listen(PORT, () => console.log(`Listening on ${PORT}`));
 
 const wss = new WebSocket.Server({
-  port: parseInt(process.env.PORT || "3030"),
+  server: server,
+  // port: parseInt(process.env.PORT || "3030"),
   perMessageDeflate: {
     zlibDeflateOptions: {
       // See zlib defaults.
