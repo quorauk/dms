@@ -23,6 +23,7 @@ const Position = styled.span`
 const Name = styled.span`
     flex-grow: 1;
     margin: auto 0;
+    text-transform: uppercase;
 `
 
 const Header = styled.div`
@@ -93,11 +94,12 @@ export const SideScore = ({ classification, score }) => {
     <Header>
         <Session>{score.session}</Session>
         {score.classDisplay && <CurrentClass>Class: {score.classDisplay}</CurrentClass>}
+        {!score.classDisplay && <CurrentClass>Overall</CurrentClass>}
     </Header>
     {currentlyDisplayed.map((c) =>
       <ScoreRow>
         <CoreData>
-            <Position><p>{score.classDisplay === null | score.classDisplay === "" ? c.Pos : c.PIC}</p></Position><Name>{c.Name}</Name>
+    <Position><p>{score.classDisplay === null | score.classDisplay === "" ? c.Pos : c.PIC}</p></Position><Name>{c.Name}</Name><CurrentClass>{score.classDisplay === null | score.classDisplay === "" ? c.PrimaryClass : ""}</CurrentClass>
         </CoreData>
         <Time><p>{c.CurrentSessionBest}</p></Time>
       </ScoreRow>
