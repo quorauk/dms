@@ -97,10 +97,10 @@ export const Admin = () => {
 
   useEffect(() => {
     const updatedClasses = classification.reduce((acc, row) => {
-      if (acc.includes(row.SubClass)) {
+      if (acc.includes(row.PrimaryClass)) {
         return acc
       } else {
-        acc.push(row.SubClass)
+        acc.push(row.PrimaryClass)
         return acc
       }
     }, classes)
@@ -133,56 +133,6 @@ export const Admin = () => {
         <Input label="session" value={session} onChange={setSession} />
         <Dropdown label="class" value={classDisplay} onChange={setClassDisplay} options={classes}/>
         <Button>Update</Button>
-      {/* <table>
-        <tr>
-          <th>
-            PIC
-          </th>
-          <th>
-            Name
-          </th>
-          <th>
-            Number
-          </th>
-          <th>
-            current session best
-          </th>
-          <th>
-            primary class
-          </th>
-          <th>
-            sub class
-          </th>
-          <th>
-            gap
-          </th>
-          <th>
-            diff
-          </th>
-          <th>
-            PB
-          </th>
-        </tr>
-        {classification.filter((c) => {
-          if (classDisplay === null | classDisplay === "") {
-            return true
-          } else {
-            return  c.SubClass === classDisplay
-          }
-        }).map((c) =>
-          (<tr>
-            <td>{c.PIC}</td>
-            <td>{c.Name}</td>
-            <td>{c.StartNumber}</td>
-            <td>{c.CurrentSessionBest}</td>
-            <td>{c.PrimaryClass}</td>
-            <td>{c.SubClass}</td>
-            <td>{c.Gap}</td>
-            <td>{c.Diff}</td>
-            <td>{c.PersonalBestTime}</td>
-          </tr>)
-        )}
-      </table> */}
       </FormRow>
     </Background>
   );

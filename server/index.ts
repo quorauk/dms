@@ -66,6 +66,7 @@ const blah = () => {
   const doAsyncStuff = async () => {
     const tsl = new TSL("202982")
     await tsl.connect()
+    tsl.getSprintSessionsData()
     tsl.getSessionData()
     tsl.registerConnectionID()
     const observer = new Observer(tsl)

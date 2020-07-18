@@ -80,10 +80,10 @@ export const SideScore = ({ classification, score }) => {
   useEffect(() => {
     if (score) {
       if (score.classDisplay === null || score.classDisplay === "") {
-        setCurrentlyDisplayed(classification.sort((a, b) => a.Pos - b.Pos))
+        setCurrentlyDisplayed(classification.sort((a, b) => a.Pos - b.Pos).slice(0, 20))
       } else {
         setCurrentlyDisplayed(classification.filter((row) =>
-          row.SubClass === score.classDisplay
+          row.PrimaryClass === score.classDisplay
         ).sort((a, b) => a.PIC - b.PIC).slice(0, 20))
       }
     }

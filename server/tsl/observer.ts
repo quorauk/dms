@@ -3,7 +3,9 @@ import { TSL } from "./index"
 export class Observer {
     tsl: TSL
     classification: Array<any>
+    classData: Array<any>
     clients: Array<(a: any) => void>
+    competitors: Array<any>
 
     constructor(tsl: TSL) {
         tsl.getClassification().then((classification) => {
@@ -11,6 +13,12 @@ export class Observer {
         })
         this.tsl = tsl
         this.clients = []
+        setInterval(async () => {
+            this.classification = await tsl.getClassification()
+            this.clients.forEach((client) => {
+                client(this.classification)
+            })
+        }, 30000)
         tsl.websocket.addEventListener("message", (msg) => {
             const jsonMSG = JSON.parse(msg.data)
             if (jsonMSG.M) {

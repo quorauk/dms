@@ -63,7 +63,11 @@ export class TSL {
     }
 
     getClassification = async () => this.callFunctionName("GetClassification") as Promise<Array<any>>
+    sendCurrentClassData = async () => this.callFunctionName("SendCurrentClassData") as Promise<Array<any>>
+    getSprintRuns = async () => this.callFunctionName("GetSprintRuns") as Promise<Array<any>>
+    getSprintCompetitors = async () => this.callFunctionName("GetSprintCompetitors") as Promise<Array<any>>
     getSessionData = async () => this.callFunctionName("GetSessionData")
+    getSprintSessionsData = async () => this.callFunctionName("GetSprintSessionsData")
     registerConnectionID = async () => this.callFunctionName("RegisterConnectionId", true, true, true)
 }
 
@@ -71,9 +75,9 @@ export class TSL {
 const timestamp = () => Math.floor(new Date() / 1000)
 
 const getWebhookURL = async () => {
-    const resp = await request.get(`https://livetiming.tsl-timing.com/signalr/negotiate?clientProtocol=2.1&connectionData=%5B%7B%22name%22%3A%22livetiming%22%7D%5D&_=${timestamp()}`)
+    const resp = await request.get(`https://lt2.tsl-timing.com/signalr/negotiate?clientProtocol=2.1&connectionData=%5B%7B%22name%22%3A%22livetiming%22%7D%5D&_=${timestamp()}`)
     const ConnectionToken = encodeURIComponent(resp.data.ConnectionToken)
-    await request.get(`https://livetiming.tsl-timing.com/signalr/start?transport=webSockets&clientProtocol=2.1&connectionToken=${ConnectionToken}&connectionData=%5B%7B%22name%22%3A%22livetiming%22%7D%5D&_=${timestamp()}`)
+    await request.get(`https://lt2.tsl-timing.com/signalr/start?transport=webSockets&clientProtocol=2.1&connectionToken=${ConnectionToken}&connectionData=%5B%7B%22name%22%3A%22livetiming%22%7D%5D&_=${timestamp()}`)
 
-    return `wss://livetiming.tsl-timing.com/signalr/connect?transport=webSockets&clientProtocol=2.1&connectionToken=${ConnectionToken}&connectionData=%5B%7B%22name%22%3A%22livetiming%22%7D%5D&tid=9`
+    return `wss://lt2.tsl-timing.com/signalr/connect?transport=webSockets&clientProtocol=2.1&connectionToken=${ConnectionToken}&connectionData=%5B%7B%22name%22%3A%22livetiming%22%7D%5D&tid=7`
 }

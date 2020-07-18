@@ -23,6 +23,7 @@
   "scripts": {
     "start": "node dist/index.js",
     "start-front": "react-scripts start",
+    "start-server": "tsc --project server/tsconfig.json && node dist/index.js",
     "build-front": "react-scripts build",
     "build-server": "tsc --project server/tsconfig.json",
     "build": "node buildScript.js",
