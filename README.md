@@ -1,4 +1,4 @@
-Code is made public but not maintained and pretty gross, written pretty quickly for data display for a racing event
+Code is made public but not maintained and pretty gross, written pretty quickly for data display for a racing event. The TSL servers aren't always up so development essentially must take place when a racing event happens
 
 has a client server model
 
